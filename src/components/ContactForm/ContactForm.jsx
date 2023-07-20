@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactSlice/contactSlice';
 import { nanoid } from '@reduxjs/toolkit';
@@ -13,7 +13,7 @@ const INITIAL_FORM_DATA = {
 
 
 const ContactForm = () => {
-  const contacts = useSelector((state) => state.contactsData.contacts);
+  const contacts = useSelector((state) => state.contacts);
 
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const dispatch = useDispatch();
@@ -25,28 +25,27 @@ const ContactForm = () => {
   };
   
 
-  const onSubmitForm = evt => {
-    evt.preventDefault();
+ const onSubmitForm = evt => {
+   evt.preventDefault();
 
-    const newContact = {
-      id: nanoid(),
-      name: formData.contactName,
-      number: formData.contactNumber,
-    };
-    if (
-      contacts.some(
-        contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
-      )
-    ) {
-      alert(`${newContact.name} is already in contact list.`);
-      return;
-    }
+   const newContact = {
+     id: nanoid(),
+     name: formData.contactName,
+     number: formData.contactNumber,
+   };
 
-    const newContacts = [newContact, ...contacts];
+   if (
+     contacts.find(
+       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+     )
+   ) {
+     alert(`${newContact.name} is already in contact list.`);
+     return;
+   }
 
-    dispatch(addContact(newContacts));
-    reset();
-  };
+   dispatch(addContact(newContact));
+   reset();
+ };
 
   const reset = () => {
     setFormData(INITIAL_FORM_DATA);
@@ -92,8 +91,8 @@ const ContactForm = () => {
   );
 };
 
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   addContact: PropTypes.func.isRequired,
+// };
 
 export default ContactForm;

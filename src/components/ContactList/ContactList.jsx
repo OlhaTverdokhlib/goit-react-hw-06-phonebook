@@ -6,12 +6,18 @@ import { useSelector } from 'react-redux';
 
 
 const ContactList = () => {
-  const contacts = useSelector(state => state.contactsData.contacts);
-  const filter = useSelector(state => state.contactsData.filter);
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  // const filteredContacts = contacts.filter(contact =>
+  //   contact.name.toLowerCase().includes(filter.toLowerCase())
+  // );
+  const filteredContacts = contacts.filter(contact => {
+    if (typeof contact.name === 'string') {
+      return contact.name.toLowerCase().includes(filter.toLowerCase());
+    }
+    return false; 
+  });
 
   return (
     <>
